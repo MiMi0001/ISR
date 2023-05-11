@@ -1,6 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
+import {MainNavBar} from "./MainNavBar";
+import {Outlet} from "react-router-dom";
+
 
 export function ISRApp(){
-    return <h1> This will be the ISR app! </h1>
+    return  <div>
+                <div>
+                    <MainNavBar/>
+                </div>
+                <div>
+                    <Outlet/>
+                </div>
+            </div>
 }
 

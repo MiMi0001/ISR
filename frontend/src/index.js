@@ -10,18 +10,28 @@ import {
 
 import {ErrorPage} from "./components/ErrorPage"
 import {ISRApp} from "./components/ISRApp";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import {ProductsList} from "./components/products/ProductsLists";
+import {Login} from "./components/Login";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <ISRApp/>,
         errorElement: <ErrorPage/>,
-        // children: [
-        //     {
-        //         path: "/pokemons",
-        //         element: <PokemonList/>,
-        //         loader: pokemonListLoader
-        //     },
+        children: [
+            {
+                path: "/products_list",
+                element: <ProductsList/>,
+            },
+            {
+                path: "/login",
+                element: <Login/>,
+            }
+        ]
+    }
+    ]);
         //     {
         //         path: "/types",
         //         element: <TypeList/>,
@@ -33,8 +43,6 @@ const router = createBrowserRouter([
         //         loader: pokemonLoader
         //     }
         // ]
-    },
-]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
