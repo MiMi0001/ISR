@@ -1,4 +1,9 @@
 Django
 psycopg2
 django-seed
+djangorestframework
+markdown
+django-filter
+djangorestframework-simplejwt
+
 
