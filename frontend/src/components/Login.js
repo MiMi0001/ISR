@@ -2,7 +2,7 @@ import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import {useState} from "react";
 
 import {fetchISR} from "../utils/fetchISR";
-import {loginToBackEnd} from "../utils/fetchISR";
+import {loginToBackend} from "../utils/fetchISR";
 
 export function Login() {
 
@@ -27,7 +27,7 @@ export function Login() {
             "password": password
         };
 
-        let tokens = await loginToBackEnd(user);
+        let tokens = await loginToBackend(user);
 
         localStorage.clear();
         localStorage.setItem("accessToken", tokens.access);

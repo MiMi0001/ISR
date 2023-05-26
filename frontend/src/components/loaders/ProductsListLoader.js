@@ -1,10 +1,7 @@
 import {fetchISR} from "../../utils/fetchISR";
-import axios from "axios";
 
 export async function productsListLoader() {
+    let products = await fetchISR("/products/all/", "GET", {});
 
-    let response = await fetchISR("/products/all/", "GET", {});
-
-
-    return response
+    return products
 }
