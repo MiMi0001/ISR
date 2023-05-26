@@ -8,7 +8,7 @@ class Tax(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    alt_id = models.CharField(max_length=10, null=True)
+    fast_code = models.CharField(max_length=10, null=True)
     base_price = models.FloatField()
     created_date = models.DateTimeField()
     tax_category = models.ForeignKey(Tax, on_delete=models.CASCADE)

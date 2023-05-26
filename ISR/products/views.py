@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.core.serializers import serialize
+from django.http import JsonResponse
+
 
 from .models import Product
 
@@ -27,3 +30,14 @@ def example(request, format=None):
         'auth': str(request.auth),  # None
     }
     return Response(content)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_all(request):
+    products = list(Product.objects.select_related('tax_category').values())
+    # data = serialize("json", products)
+
+    # print(JsonResponse(data))
+    return JsonResponse(products, safe=False)

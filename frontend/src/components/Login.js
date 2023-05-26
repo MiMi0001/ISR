@@ -1,6 +1,41 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import {useState} from "react";
+
+import {fetchISR} from "../utils/fetchISR";
+import {loginToBackEnd} from "../utils/fetchISR";
 
 export function Login() {
+
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+
+    function onChangeUserName(event){
+        setUserName(event.target.value);
+        console.log(userName);
+    }
+
+    function onChangePassword(event) {
+        setPassword(event.target.value);
+        console.log(password)
+    }
+
+    async function onClickButton(event) {
+        event.preventDefault();
+
+        const user = {
+            "username": userName,
+            "password": password
+        };
+
+        let tokens = await loginToBackEnd(user);
+
+        localStorage.clear();
+        localStorage.setItem("accessToken", tokens.access);
+        localStorage.setItem("refreshToken", tokens.refresh);
+
+        window.location.href = '/'
+    }
+
     return (
         <div>
             <Container>
@@ -18,7 +53,7 @@ export function Login() {
                                                 <Form.Label className="text-center">
                                                     Felhasználónév
                                                 </Form.Label>
-                                                <Form.Control type="email" placeholder="Feéhasználónév" />
+                                                <Form.Control value={userName} onChange={onChangeUserName} type="text" placeholder="Felhasználónév" />
                                             </Form.Group>
 
                                             <Form.Group
@@ -26,7 +61,7 @@ export function Login() {
                                                 controlId="formBasicPassword"
                                             >
                                                 <Form.Label>Jelszó</Form.Label>
-                                                <Form.Control type="password" placeholder="Jelszó" />
+                                                <Form.Control value={password} onChange={onChangePassword} type="password" placeholder="Jelszó" />
                                             </Form.Group>
                                             <Form.Group
                                                 className="mb-3"
@@ -39,7 +74,7 @@ export function Login() {
                                                 </p>
                                             </Form.Group>
                                             <div className="d-grid">
-                                                <Button variant="primary" type="submit">
+                                                <Button variant="primary" type="submit" onClick={onClickButton}>
                                                     Bejelentkezés
                                                 </Button>
                                             </div>

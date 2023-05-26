@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {MainNavBar} from "./MainNavBar";
-import {Outlet} from "react-router-dom";
 
+import {Outlet} from "react-router-dom";
 
 export function ISRApp(){
     return  <div>

@@ -9,14 +9,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
-
-
-
 export function MainNavBar() {
     return (
         <Navbar variant="dark" bg="dark" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="#home">Integrált Sütőipari Rendszer</Navbar.Brand>
+                <Navbar.Brand href="#home">Teszt rendszer</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-dark-example" />
                 <Navbar.Collapse id="navbar-dark-example">
                     <Nav className="me-auto">

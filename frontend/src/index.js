@@ -7,13 +7,14 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {ErrorPage} from "./components/ErrorPage"
 import {ISRApp} from "./components/ISRApp";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import {ProductsList} from "./components/products/ProductsLists";
 import {Login} from "./components/Login";
+import {productsListLoader} from "./components/loaders/ProductsListLoader";
+
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
             {
                 path: "/products_list",
                 element: <ProductsList/>,
+                loader: productsListLoader
             },
             {
                 path: "/login",
@@ -32,17 +34,7 @@ const router = createBrowserRouter([
         ]
     }
     ]);
-        //     {
-        //         path: "/types",
-        //         element: <TypeList/>,
-        //         loader: typeListLoader
-        //     },
-        //     {
-        //         path: "/pokemon/:pokemonId",
-        //         element: <PokemonDetail/>,
-        //         loader: pokemonLoader
-        //     }
-        // ]
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
