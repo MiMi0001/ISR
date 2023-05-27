@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {
     createBrowserRouter,
@@ -13,7 +12,6 @@ import {ErrorPage} from "./components/ErrorPage"
 import {ISRApp} from "./components/ISRApp";
 import {ProductsList} from "./components/products/ProductsLists";
 import {Login} from "./components/Login";
-import {productsListLoader} from "./components/loaders/ProductsListLoader";
 
 
 const router = createBrowserRouter([
@@ -25,7 +23,6 @@ const router = createBrowserRouter([
             {
                 path: "/products_list",
                 element: <ProductsList/>,
-                loader: productsListLoader
             },
             {
                 path: "/login",

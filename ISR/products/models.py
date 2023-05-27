@@ -8,6 +8,7 @@ class Tax(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
     fast_code = models.IntegerField(null=True)
     base_price = models.FloatField()
     created_date = models.DateTimeField()
