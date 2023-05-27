@@ -3,56 +3,78 @@ import React, {useEffect, useState} from "react";
 import Table from 'react-bootstrap/Table';
 import Container from "react-bootstrap/Container";
 import {Badge, Button, Carousel, Col, Row} from "react-bootstrap";
+import {fetchISR} from "../../utils/fetchISR";
 
 
 export function ProductsList() {
-    let products = useLoaderData();
-    const [currentProduct, setProduct] = useState(products[0]);
     const [ascDesc, setAscDesc] = useState("ASC");
-    const [orderBy, setOrder] = useState("fast_code");
+    const [orderBy, setOrderBy] = useState("fast_code");
+    const [products, setProducts] = useState([]);
+    const [currentProduct, setCurrentProduct] = useState(products[0]);
+
+    useEffect(() => {
+        fetchISR("/products/all/", "POST", {
+            "orderby": orderBy,
+            "ascdesc": ascDesc
+        }).then((result) => {
+            setProducts(result)
+            console.log("Fetching products from backend...")
+        });
+    }, [orderBy, ascDesc])
+
+    function fetchProducts() {
+        setProducts([]);
+        console.log("Fetching products");
+        fetchISR("/products/all/", "POST", {
+            "orderby": orderBy,
+            "ascdesc": ascDesc
+        }).then((result) => {
+            setProducts(result)
+        });
+    }
 
     function productOnClick(e, product) {
         e.preventDefault();
         console.log(`product id: ${product.id}`);
-        setProduct(product)
+        setCurrentProduct(product)
     }
 
     function ascDescButtonOnClick(e) {
         setAscDesc(ascDesc === "ASC" ? "DESC" : "ASC");
     }
 
+    function orderByButtonsOnClick(e) {
+        console.log("id: " + e.target.id);
+        setOrderBy(e.target.id);
+    }
+
     function ProductsListTable(props) {
         return <div>
-            {ascDesc === "ASC"
-                ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés ↓</Button>
-                : <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↑ Csökkenő rendezés ↑</Button>
+
+            {ascDesc === "DESC"
+                ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés
+                    ↓</Button>
+                : <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↑ Csökkenő rendezés
+                    ↑</Button>
             }
             <Table striped bordered hover size="sm" className="w-50">
                 <thead>
-                <tr>
-                    <th>
-                        {orderBy === "fast_code"
-                            ? <Button variant="danger" size="sm">Gyors kód</Button>
-                            : <Button variant="warning" size="sm" onClick={(e)=>{
-                                setOrder("fast_code")}}>Gyors kód</Button>
-                        }
-                    </th>
-                    <th>
-                        {orderBy === "name"
-                            ? <Button variant="danger" size="sm">Termék neve</Button>
-                            : <Button variant="warning" size="sm" onClick={(e) => {
-                                setOrder("name")}}>Termék neve</Button>
-                        }
-                    </th>
-                </tr>
+                    <tr>
+                        <th><Button id="fast_code" size="sm" variant={orderBy === "fast_code" ? "danger" : "warning"}onClick={(e) => {
+                            orderByButtonsOnClick(e);}}>Gyors kód</Button></th>
+                        <th><Button id="name" size="sm" variant={orderBy === "name" ? "danger" : "warning"}onClick={(e) => {
+                            orderByButtonsOnClick(e);}}>Termék neve</Button></th>
+                    </tr>
                 </thead>
                 <tbody>
-                {props.products.map((product) => (
-                    <tr key={product.id}>
-                        <td> {product.fast_code}</td>
-                        <td><a href={""} onClick={(e) => productOnClick(e, product)}> {product.name} </a></td>
-                    </tr>
-                ))}
+                {props.products === null
+                    ? <tr></tr>
+                    : props.products.map((product) => (
+                        <tr key={product.id}>
+                            <td> {product.fast_code}</td>
+                            <td><a href={""} onClick={(e) => productOnClick(e, product)}> {product.name} </a></td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </div>
@@ -103,8 +125,11 @@ export function ProductsList() {
             <Col>
                 <ProductsListTable products={products}/>
             </Col>
-            <Col>
-                <ProductDetails product={currentProduct}/>
+            <Col>{
+                currentProduct === undefined
+                    ? <div></div>
+                    : <ProductDetails product={currentProduct}/>
+            }
             </Col>
         </Row>
     </Container>
