@@ -20,7 +20,7 @@ async function refreshAccessToken() {
     let tokens = await response.json();
 
     localStorage.setItem("accessToken", tokens.access);
-    console.log("Access token refreshed /w fetch API.");
+    console.log("Access token has been refreshed.");
 
     return tokens.access;
 }
@@ -47,6 +47,7 @@ export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
 
     let response = null;
     if (accessToken) {
+        console.log("Fetching backend...");
         let tokenExpiry = jwtDecode(accessToken).exp;
         let isTokenExpired = dayjs.unix(tokenExpiry).diff(dayjs()) < 1;
 

@@ -1,4 +1,3 @@
-import {Link, useLoaderData} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import Table from 'react-bootstrap/Table';
 import Container from "react-bootstrap/Container";
@@ -18,39 +17,27 @@ export function ProductsList() {
             "ascdesc": ascDesc
         }).then((result) => {
             setProducts(result)
-            console.log("Fetching products from backend...")
         });
     }, [orderBy, ascDesc])
 
-    function fetchProducts() {
-        setProducts([]);
-        console.log("Fetching products");
-        fetchISR("/products/all/", "POST", {
-            "orderby": orderBy,
-            "ascdesc": ascDesc
-        }).then((result) => {
-            setProducts(result)
-        });
-    }
-
     function productOnClick(e, product) {
         e.preventDefault();
-        console.log(`product id: ${product.id}`);
+        console.log(`Details of product with id: ${product.id}`);
         setCurrentProduct(product)
     }
 
     function ascDescButtonOnClick(e) {
         setAscDesc(ascDesc === "ASC" ? "DESC" : "ASC");
+        console.log("Ascending / Descending order: " + ascDesc);
     }
 
     function orderByButtonsOnClick(e) {
-        console.log("id: " + e.target.id);
+        console.log("order by: " + e.target.id);
         setOrderBy(e.target.id);
     }
 
     function ProductsListTable(props) {
         return <div>
-
             {ascDesc === "DESC"
                 ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés
                     ↓</Button>
@@ -59,12 +46,16 @@ export function ProductsList() {
             }
             <Table striped bordered hover size="sm" className="w-50">
                 <thead>
-                    <tr>
-                        <th><Button id="fast_code" size="sm" variant={orderBy === "fast_code" ? "danger" : "warning"}onClick={(e) => {
-                            orderByButtonsOnClick(e);}}>Gyors kód</Button></th>
-                        <th><Button id="name" size="sm" variant={orderBy === "name" ? "danger" : "warning"}onClick={(e) => {
-                            orderByButtonsOnClick(e);}}>Termék neve</Button></th>
-                    </tr>
+                <tr>
+                    <th><Button id="fast_code" size="sm" variant={orderBy === "fast_code" ? "danger" : "warning"}
+                                onClick={(e) => {
+                                    orderByButtonsOnClick(e);
+                                }}>Gyors kód</Button></th>
+                    <th><Button id="name" size="sm" variant={orderBy === "name" ? "danger" : "warning"}
+                                onClick={(e) => {
+                                    orderByButtonsOnClick(e);
+                                }}>Termék neve</Button></th>
+                </tr>
                 </thead>
                 <tbody>
                 {props.products === null
