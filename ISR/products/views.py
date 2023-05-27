@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
@@ -7,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.core.serializers import serialize
 from django.http import JsonResponse
-
 
 from .models import Product
 
@@ -20,24 +21,15 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-@api_view(['GET'])
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
-def example(request, format=None):
-    content = {
-        'user': str(request.user),  # `django.contrib.auth.User` instance.
-        'email': str(request.user.email),
-        'auth': str(request.auth),  # None
-    }
-    return Response(content)
-
-
-@api_view(['GET'])
+@api_view(['POST'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_all(request):
-    products = list(Product.objects.select_related('tax_category').values())
+    payload = json.loads(request.body)
+    orderby = payload["orderby"]
+    asc_desc = "-" if payload["ascdesc"] == "DESC" else ""
+    print(f'order by: {asc_desc+orderby}')
+    products = list(Product.objects.select_related('tax_category').order_by(asc_desc+orderby).values())
     # data = serialize("json", products)
 
-    # print(JsonResponse(data))
     return JsonResponse(products, safe=False)

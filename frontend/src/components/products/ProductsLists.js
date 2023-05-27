@@ -31,17 +31,17 @@ export function ProductsList() {
                 <thead>
                 <tr>
                     <th>
-                        {orderBy === "name"
-                            ? <Button variant="danger" size="sm">Termék neve</Button>
-                            : <Button variant="warning" size="sm" onClick={(e) => {
-                                setOrder("name")}}>Termék neve</Button>
-                        }
-                    </th>
-                    <th>
                         {orderBy === "fast_code"
                             ? <Button variant="danger" size="sm">Gyors kód</Button>
                             : <Button variant="warning" size="sm" onClick={(e)=>{
                                 setOrder("fast_code")}}>Gyors kód</Button>
+                        }
+                    </th>
+                    <th>
+                        {orderBy === "name"
+                            ? <Button variant="danger" size="sm">Termék neve</Button>
+                            : <Button variant="warning" size="sm" onClick={(e) => {
+                                setOrder("name")}}>Termék neve</Button>
                         }
                     </th>
                 </tr>
