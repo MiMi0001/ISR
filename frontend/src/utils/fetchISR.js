@@ -40,14 +40,14 @@ export async function loginToBackend(user) {
     return response.json();
 }
 
-export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
+export async function fetchISR(relativeURL, httpMethodString, payloadObject={}) {
     let url = baseURL + relativeURL;
 
     let accessToken = localStorage.getItem("accessToken");
 
     let response = null;
     if (accessToken) {
-        console.log("Fetching backend...");
+        console.log("Fetching backend on "+relativeURL);
         let tokenExpiry = jwtDecode(accessToken).exp;
         let isTokenExpired = dayjs.unix(tokenExpiry).diff(dayjs()) < 1;
 
@@ -56,9 +56,8 @@ export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
             accessToken = await refreshAccessToken();
         }
 
-        const headers = {'Authorization': `Bearer ${accessToken}`}
-
         if (httpMethodString.toUpperCase() === "GET") { // GET request cannot have a body.
+            console.log("Sending GET request...");
             response = await fetch(url, {
                 method: httpMethodString,
                 mode: "cors",
@@ -69,7 +68,7 @@ export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
             })
 
         } else if (httpMethodString.toUpperCase() === "POST") {
-            console.log("payload:")
+            console.log("Sending POST request with payload:")
             console.log(payloadObject);
             response = await fetch(url, {
                 method: httpMethodString,

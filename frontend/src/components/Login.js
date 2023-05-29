@@ -2,7 +2,7 @@ import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import {useState} from "react";
 import {useContext} from 'react';
 
-import {loginToBackend} from "../utils/fetchISR";
+import {fetchISR, loginToBackend} from "../utils/fetchISR";
 import {UserContext} from "./context/UserContext";
 import {useNavigate} from "react-router-dom";
 
@@ -25,17 +25,22 @@ export function Login() {
     async function onClickButton(event) {
         event.preventDefault();
 
+        console.log("Proceeding with login...");
         const user = {
             "username": userName,
             "password": password
         };
 
         let tokens = await loginToBackend(user);
-
         localStorage.clear();
         localStorage.setItem("accessToken", tokens.access);
         localStorage.setItem("refreshToken", tokens.refresh);
-        setUserContext({"username":user.username});
+
+        let response = await fetchISR("/userdata/", "GET");
+        let userData = await response.json();
+
+
+        setUserContext({"username":userData.username, "email":userData.email, "firstName":userData.first_name, "lastName":userData.last_name});
 
         navigate("/");
     }
@@ -85,7 +90,7 @@ export function Login() {
                                         </Form>
                                         <div className="mt-3">
                                             <p className="mb-0  text-center">
-                                                Nincs még regisztrálva?{" "}
+                                                Nincs még regisztrálva?
                                                 {/*<a href="{''}" className="text-primary fw-bold">*/}
                                                 {/*    Sign Up*/}
                                                 {/*</a>*/}

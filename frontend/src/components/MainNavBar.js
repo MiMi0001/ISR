@@ -63,7 +63,7 @@ export function MainNavBar() {
 
                     <Nav>
                         {user.username === ""
-                            ? <Nav.Link><Link to={"/login"}>Bejelentkezés</Link></Nav.Link>
+                            ? <Nav.Link><Link to="/login">Bejelentkezés</Link></Nav.Link>
                             : <Navbar.Text style={{color: "white"}}> Bejelentkezve mint: <Badge bg="success">{user.username}</Badge>
                                 <Button className="ms-3" size="sm" onClick={logout}> Kijelentkezés </Button></Navbar.Text>
                         }

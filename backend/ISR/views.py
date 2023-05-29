@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
+from django.http import JsonResponse
 import json
 
 from .serializers import UserSerializer
@@ -22,6 +23,19 @@ def logout(request):
         return Response(status=status.HTTP_205_RESET_CONTENT)
     except Exception as e:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_data(request):
+    username = request.user.username
+    email = request.user.email
+    first_name = request.user.first_name
+    last_name = request.user.last_name
+    user_data = {"username": username, "email": email, "first_name": first_name, "last_name": last_name}
+
+    return JsonResponse(user_data)
 
 
 @api_view(['POST'])
