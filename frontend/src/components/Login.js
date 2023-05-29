@@ -1,22 +1,25 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import {useState} from "react";
+import {useContext} from 'react';
 
-import {fetchISR} from "../utils/fetchISR";
 import {loginToBackend} from "../utils/fetchISR";
+import {UserContext} from "./context/UserContext";
+import {useNavigate} from "react-router-dom";
+
 
 export function Login() {
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    let [userContext, setUserContext]= useContext(UserContext);
+    const navigate = useNavigate();
 
     function onChangeUserName(event){
         setUserName(event.target.value);
-        console.log(userName);
     }
 
     function onChangePassword(event) {
         setPassword(event.target.value);
-        console.log(password)
     }
 
     async function onClickButton(event) {
@@ -32,8 +35,9 @@ export function Login() {
         localStorage.clear();
         localStorage.setItem("accessToken", tokens.access);
         localStorage.setItem("refreshToken", tokens.refresh);
+        setUserContext({"username":user.username});
 
-        window.location.href = '/'
+        navigate("/");
     }
 
     return (

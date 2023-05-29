@@ -14,10 +14,10 @@ export function ProductsList() {
     useEffect(() => {
         fetchISR("/products/all/", "POST", {
             "orderby": orderBy,
-            "ascdesc": ascDesc
-        }).then((result) => {
-            setProducts(result)
-        });
+            "ascdesc": ascDesc})
+            .then((result) => result.json())
+            .then((data)=> setProducts(data));
+        console.log(products);
     }, [orderBy, ascDesc])
 
     function productOnClick(e, product) {
@@ -74,7 +74,7 @@ export function ProductsList() {
     function ProductDetails(props) {
         return <Carousel variant="dark" interval={null}>
             <Carousel.Item>
-                <h9> Termék neve:</h9>
+                <h6> Termék neve:</h6>
                 <h4><Badge bg="info"> {props.product.name} </Badge></h4>
                 <h6>Kód: {props.product.id}</h6>
                 <h6>Gyors kód: {props.product.fast_code} </h6>

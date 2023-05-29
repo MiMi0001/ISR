@@ -69,6 +69,8 @@ export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
             })
 
         } else if (httpMethodString.toUpperCase() === "POST") {
+            console.log("payload:")
+            console.log(payloadObject);
             response = await fetch(url, {
                 method: httpMethodString,
                 mode: "cors",
@@ -85,5 +87,5 @@ export async function fetchISR(relativeURL, httpMethodString, payloadObject) {
         return null;
     }
 
-    return response.json();
+    return response;
 }

@@ -32,6 +32,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'products.apps.ProductsConfig',
     'rest_framework',
