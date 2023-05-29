@@ -38,7 +38,7 @@ export function ProductsList() {
 
     function ProductsListTable(props) {
         return <div>
-            {ascDesc === "DESC"
+            {ascDesc === "ASC"
                 ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés
                     ↓</Button>
                 : <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↑ Csökkenő rendezés

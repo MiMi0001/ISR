@@ -6,6 +6,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 import json
 
+from .serializers import UserSerializer
+
 
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
@@ -21,3 +23,11 @@ def logout(request):
     except Exception as e:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['POST'])
+def register(request):
+    payload = json.loads(request.body)
+    serializer = UserSerializer(payload)
+    serializer.save()
+
+    print(serializer.data)
