@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Table from 'react-bootstrap/Table';
 import Container from "react-bootstrap/Container";
 import {Badge, Button, Carousel, Col, Row} from "react-bootstrap";
 import {fetchISR} from "../../utils/fetchISR";
+import {UserContext} from "../context/UserContext";
+import {useNavigate} from "react-router-dom";
 
 
 export function ProductsList() {
@@ -10,14 +12,16 @@ export function ProductsList() {
     const [orderBy, setOrderBy] = useState("fast_code");
     const [products, setProducts] = useState([]);
     const [currentProduct, setCurrentProduct] = useState(products[0]);
+    let [user, setUser] = useContext(UserContext);
 
     useEffect(() => {
-        fetchISR("/products/all/", "POST", {
-            "orderby": orderBy,
-            "ascdesc": ascDesc})
-            .then((result) => result.json())
-            .then((data)=> setProducts(data));
-        console.log(products);
+        if (user.username!=="") {
+            fetchISR("/products/all/", "POST", {
+                "orderby": orderBy,
+                "ascdesc": ascDesc})
+                .then((result) => result.json())
+                .then((data)=> setProducts(data));
+            console.log(products)};
     }, [orderBy, ascDesc])
 
     function productOnClick(e, product) {
@@ -37,38 +41,48 @@ export function ProductsList() {
     }
 
     function ProductsListTable(props) {
-        return <div>
-            {ascDesc === "ASC"
-                ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés
-                    ↓</Button>
-                : <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↑ Csökkenő rendezés
-                    ↑</Button>
-            }
-            <Table striped bordered hover size="sm" className="w-50">
-                <thead>
-                <tr>
-                    <th><Button id="fast_code" size="sm" variant={orderBy === "fast_code" ? "danger" : "warning"}
-                                onClick={(e) => {
-                                    orderByButtonsOnClick(e);
-                                }}>Gyors kód</Button></th>
-                    <th><Button id="name" size="sm" variant={orderBy === "name" ? "danger" : "warning"}
-                                onClick={(e) => {
-                                    orderByButtonsOnClick(e);
-                                }}>Termék neve</Button></th>
-                </tr>
-                </thead>
-                <tbody>
-                {props.products === null
-                    ? <tr></tr>
-                    : props.products.map((product) => (
-                        <tr key={product.id}>
-                            <td> {product.fast_code}</td>
-                            <td><a href={""} onClick={(e) => productOnClick(e, product)}> {product.name} </a></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </div>
+        const navigate = useNavigate();
+
+        if (user.username==="") {
+            console.log("User not logged in.")
+            return <div>
+                    <h3>Kérem jelentkezzen be!</h3>
+                </div>
+        }
+        else {
+            return <div>
+                {ascDesc === "ASC"
+                    ? <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↓ Növekvő rendezés
+                        ↓</Button>
+                    : <Button variant="warning" size="sm" onClick={(e) => ascDescButtonOnClick(e)}>↑ Csökkenő rendezés
+                        ↑</Button>
+                }
+                <Table striped bordered hover size="sm" className="w-50">
+                    <thead>
+                    <tr>
+                        <th><Button id="fast_code" size="sm" variant={orderBy === "fast_code" ? "danger" : "warning"}
+                                    onClick={(e) => {
+                                        orderByButtonsOnClick(e);
+                                    }}>Gyors kód</Button></th>
+                        <th><Button id="name" size="sm" variant={orderBy === "name" ? "danger" : "warning"}
+                                    onClick={(e) => {
+                                        orderByButtonsOnClick(e);
+                                    }}>Termék neve</Button></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {props.products === null
+                        ? <tr></tr>
+                        : props.products.map((product) => (
+                            <tr key={product.id}>
+                                <td> {product.fast_code}</td>
+                                <td><a href={""} onClick={(e) => productOnClick(e, product)}> {product.name} </a></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+        }
     }
 
     function ProductDetails(props) {
