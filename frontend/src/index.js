@@ -12,7 +12,7 @@ import {ErrorPage} from "./components/ErrorPage"
 import {ISRApp} from "./components/ISRApp";
 import {ProductsList} from "./components/products/ProductsLists";
 import {Login} from "./components/Login";
-import {IndexImage} from "./components/IndexImage";
+import {IndexPage} from "./components/IndexPage";
 
 
 const router = createBrowserRouter([
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <IndexImage/>
+                element: <IndexPage/>
             },
             {
                 path: "/products_list",

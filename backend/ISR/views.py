@@ -5,6 +5,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.http import JsonResponse
+from django.core import serializers
 import json
 
 from .serializers import UserSerializer
@@ -29,11 +30,14 @@ def logout(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_user_data(request):
-    username = request.user.username
-    email = request.user.email
-    first_name = request.user.first_name
-    last_name = request.user.last_name
-    user_data = {"username": username, "email": email, "first_name": first_name, "last_name": last_name}
+    serializer = UserSerializer(request.user)
+    user_data = serializer.data
+
+    # username = request.user.username
+    # email = request.user.email
+    # first_name = request.user.first_name
+    # last_name = request.user.last_name
+    # user_data = {"username": username, "email": email, "first_name": first_name, "last_name": last_name}
 
     return JsonResponse(user_data)
 
