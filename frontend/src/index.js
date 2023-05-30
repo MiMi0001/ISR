@@ -12,6 +12,7 @@ import {ErrorPage} from "./components/ErrorPage"
 import {ISRApp} from "./components/ISRApp";
 import {ProductsList} from "./components/products/ProductsLists";
 import {Login} from "./components/Login";
+import {IndexImage} from "./components/IndexImage";
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
         element: <ISRApp/>,
         errorElement: <ErrorPage/>,
         children: [
+            {
+                path: "/",
+                element: <IndexImage/>
+            },
             {
                 path: "/products_list",
                 element: <ProductsList/>,
@@ -30,7 +35,7 @@ const router = createBrowserRouter([
             }
         ]
     }
-    ]);
+]);
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -32,7 +32,7 @@ export function MainNavBar() {
             setUser({"username": ""});
         });
 
-        navigate("/login");
+        navigate("/");
     }
 
     return (
