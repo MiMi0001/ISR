@@ -10,9 +10,10 @@ import {useNavigate} from "react-router-dom";
 
 import {UserContext} from "./context/UserContext";
 import {fetchISR} from "../utils/fetchISR";
-import {Badge, Button} from "react-bootstrap";
+import {Badge, Button, NavLink} from "react-bootstrap";
 import {ConfigContext} from "./context/ConfigContext";
 import app from "../App";
+import Image from "react-bootstrap/Image";
 
 export function MainNavBar() {
     let [user, setUser] = useContext(UserContext);
@@ -48,7 +49,8 @@ export function MainNavBar() {
     return (
         <Navbar variant="dark" bg="dark" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="#home">{appConfig.owner.name}</Navbar.Brand>
+                <Navbar.Brand>{appConfig.owner.name}</Navbar.Brand>
+                <Link to={"/"}><Navbar.Text >&#8962;</Navbar.Text></Link>
                 <Navbar.Toggle aria-controls="navbar-dark-example"/>
                 <Navbar.Collapse>
                     {user.username!==""
