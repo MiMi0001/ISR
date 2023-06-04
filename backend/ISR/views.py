@@ -54,6 +54,9 @@ def register(request):
     print(serializer.data)
 
 
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def get_config(request):
     xml_file = open("config.xml")
     config_tree = ET.parse(xml_file)

@@ -21,6 +21,13 @@ export function MainNavBar() {
     console.log(appConfig);
     const navigate = useNavigate();
 
+    useEffect(  ()=>{
+        console.log("fetching config...");
+
+        fetch("http://127.0.0.1:8000/config/")
+            .then((response) => response.json())
+            .then((data) => setAppConfig(data))
+    }, [])
 
     function logout(e) {
         e.preventDefault();
@@ -31,8 +38,7 @@ export function MainNavBar() {
         let payload = {"refresh": refreshToken};
 
         fetchISR("/logout/", "POST", payload).then((response)=>{
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+            localStorage.clear();
             setUser({"username": ""});
         });
 
