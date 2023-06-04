@@ -1,0 +1,3 @@
+Ezt ne futtasd:
+
+heroku buildpacks:set mars/create-react-app
