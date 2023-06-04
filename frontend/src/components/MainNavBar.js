@@ -50,7 +50,10 @@ export function MainNavBar() {
         <Navbar variant="dark" bg="dark" expand="lg">
             <Container fluid>
                 <Navbar.Brand>{appConfig.owner.name}</Navbar.Brand>
-                <Link to={"/"}><Navbar.Text >&#8962;</Navbar.Text></Link>
+                {user.username!=="" 
+                    ? <Link to={"/"}><Navbar.Text >&#8962;</Navbar.Text></Link>
+                    : <></>
+                }
                 <Navbar.Toggle aria-controls="navbar-dark-example"/>
                 <Navbar.Collapse>
                     {user.username!==""
