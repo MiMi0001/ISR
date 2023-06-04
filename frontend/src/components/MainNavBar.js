@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Container from 'react-bootstrap/Container';
@@ -11,12 +11,16 @@ import {useNavigate} from "react-router-dom";
 import {UserContext} from "./context/UserContext";
 import {fetchISR} from "../utils/fetchISR";
 import {Badge, Button} from "react-bootstrap";
+import {ConfigContext} from "./context/ConfigContext";
+import app from "../App";
 
 export function MainNavBar() {
     let [user, setUser] = useContext(UserContext);
-    console.log("<MainNavBar>:")
-    console.log(user);
+    let [appConfig, setAppConfig] = useContext(ConfigContext);
+    console.log("<MainNavBar>:");
+    console.log(appConfig);
     const navigate = useNavigate();
+
 
     function logout(e) {
         e.preventDefault();
@@ -38,7 +42,7 @@ export function MainNavBar() {
     return (
         <Navbar variant="dark" bg="dark" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="#home">Teszt rendszer</Navbar.Brand>
+                <Navbar.Brand href="#home">{appConfig.owner.name}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-dark-example"/>
                 <Navbar.Collapse>
                     {user.username!==""
